@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useApi } from '../hooks/useApi';
 import { apiService } from '../services/api';
-import { Icons } from '../components/icons';
+import { Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Flame, ShoppingBag } from 'lucide-react';
 import { StoreCarousel } from '../components/StoreCarousel';
@@ -309,7 +309,7 @@ export function StorePage() {
           onClick={() => navigate('/payment', { state: { item } })}
           className="absolute top-2 right-2 p-2 bg-white/10 rounded-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-white/20"
         >
-          <Icons.gift className="w-5 h-5 text-white" />
+          <ShoppingBag className="w-5 h-5 text-white" />
         </button>
       </div>
       <div className="p-4">
@@ -324,12 +324,22 @@ export function StorePage() {
 
   return (
     <div className="min-h-screen bg-[#0B0D12]">
-      <div className="pt-16"> {/* Ajustado para coincidir con la altura del Navbar */}
+      <div className="pt-16">
         <StoreCarousel />
-        <div className="container mx-auto px-4 xl:px-8 2xl:px-16">
+        {/* Compra segura y confiable */}
+        <div className="flex justify-center items-center py-6 bg-[#0B0D12] border-b border-[#1A1D1F]">
+          <div className="flex items-center gap-2 text-[#00A3FF]">
+            <span className="text-lg">🔒</span>
+            <span className="text-sm font-medium">Compra segura y confiable</span>
+          </div>
+        </div>
+        
+        {/* Contenido principal con espacio aumentado */}
+        <div className="container mx-auto px-4 xl:px-8 2xl:px-16 pt-8">
           <div className="grid grid-cols-[240px_1fr] gap-8">
             {/* Sidebar */}
             <aside className="space-y-6">
+              {/* Games Section */}
               <div className="bg-[#1A1D1F] rounded-xl p-4">
                 <h3 className="text-white font-medium mb-4">Games</h3>
                 <div className="space-y-2">
@@ -337,14 +347,25 @@ export function StorePage() {
                     <button
                       key={game.id}
                       onClick={() => setSelectedGame(game.id)}
-                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-                        selectedGame === game.id
-                          ? 'bg-[#00A3FF] text-white'
+                      className={`
+                        relative w-full flex items-center gap-3 px-3 py-2 rounded-lg
+                        transition-all duration-200 cursor-pointer
+                        ${selectedGame === game.id 
+                          ? 'bg-[#00A3FF] text-white shadow-lg shadow-[#00A3FF]/20' 
                           : 'text-[#8A8F98] hover:bg-[#1E2028]'
-                      }`}
+                        }
+                      `}
                     >
                       <img src={game.icon} alt={game.name} className="w-6 h-6 rounded" />
                       <span>{game.name}</span>
+                      {selectedGame === game.id && (
+                        <motion.div
+                          layoutId="selectedGameSidebar"
+                          className="absolute inset-0 bg-[#00A3FF] rounded-lg -z-10"
+                          initial={false}
+                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                        />
+                      )}
                     </button>
                   ))}
                 </div>
@@ -369,8 +390,8 @@ export function StorePage() {
                 <h3 className="text-white font-medium mb-4">Rarities</h3>
                 <div className="space-y-2">
                   {['Legendary', 'Mythical', 'Rare', 'Common'].map(rarity => (
-                    <label key={rarity} className="flex items-center gap-2 text-[#8A8F98] cursor-pointer">
-                      <input type="checkbox" className="form-checkbox" />
+                    <label key={rarity} className="flex items-center gap-2 text-[#8A8F98] cursor-pointer hover:text-white transition-colors">
+                      <input type="checkbox" className="form-checkbox text-[#00A3FF]" />
                       <span>{rarity}</span>
                     </label>
                   ))}
@@ -381,25 +402,50 @@ export function StorePage() {
             {/* Main Content */}
             <main>
               {/* Categories */}
-              <div className="flex items-center gap-6 mb-8 border-b border-[#2A2D30] pb-4">
+              <div className="flex flex-wrap gap-2 mb-8">
                 {categories.map(category => (
                   <button
                     key={category.id}
                     onClick={() => setActiveCategory(category.id)}
-                    className={`text-[#8A8F98] hover:text-white pb-4 border-b-2 border-transparent hover:border-[#00A3FF] transition-colors ${
-                      category.id === activeCategory ? 'text-white border-[#00A3FF]' : ''
-                    }`}
+                    className={`
+                      relative px-4 py-2 rounded-lg font-medium
+                      transition-all duration-200 cursor-pointer z-10
+                      ${activeCategory === category.id 
+                        ? 'bg-[#00A3FF] text-white shadow-lg shadow-[#00A3FF]/20' 
+                        : 'bg-[#1A1D1F] text-gray-400 hover:bg-[#2A2D2F] hover:text-white'
+                      }
+                    `}
                   >
-                    <span>{category.name}</span>
+                    <span className="relative z-10">{category.name}</span>
+                    {activeCategory === category.id && (
+                      <motion.div
+                        layoutId="activeCategory"
+                        className="absolute inset-0 bg-[#00A3FF] rounded-lg -z-0"
+                        initial={false}
+                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      />
+                    )}
                   </button>
                 ))}
               </div>
 
-              {/* Sort and Filter */}
-              <div className="flex justify-end mb-6">
+              {/* Search and Sort */}
+              <div className="flex justify-between items-center mb-6">
+                <div className="relative w-80">
+                  <input
+                    type="text"
+                    placeholder="Buscar items..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full px-4 py-3 bg-[#1A1D1F] rounded-lg text-white placeholder-gray-400 
+                             focus:outline-none focus:ring-2 focus:ring-[#00A3FF] transition-all duration-200"
+                  />
+                  <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                </div>
+                
                 <div className="flex items-center gap-2 text-[#8A8F98]">
                   <span>Sort By:</span>
-                  <select className="bg-[#1A1D1F] border border-[#2A2D30] rounded px-3 py-1">
+                  <select className="bg-[#1A1D1F] border border-[#2A2D30] rounded px-3 py-2">
                     <option>Popularity</option>
                     <option>Price: Low to High</option>
                     <option>Price: High to Low</option>
@@ -408,7 +454,7 @@ export function StorePage() {
               </div>
 
               {/* Grid de items */}
-              <div className="grid grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {filteredItems.sections.map(section => (
                   section.items.map(renderShopItem)
                 ))}
