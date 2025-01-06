@@ -324,9 +324,9 @@ export function StorePage() {
 
   return (
     <div className="min-h-screen bg-[#0B0D12]">
-      <div className="pt-16">
+      <div className="pt-16"> {/* Ajustado para coincidir con la altura del Navbar */}
         <StoreCarousel />
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 xl:px-8 2xl:px-16">
           <div className="grid grid-cols-[240px_1fr] gap-8">
             {/* Sidebar */}
             <aside className="space-y-6">
