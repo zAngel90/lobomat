@@ -15,7 +15,7 @@ export function Navbar() {
               alt="Lobomat Logo" 
               className="h-10 w-auto"
             />
-            <span className="text-xl font-bold bg-gradient-to-r from-[#00A3FF] to-[#00FFB3] text-transparent bg-clip-text">
+            <span className="text-xl font-bold bg-gradient-to-r from-[#4CC9F0] via-[#00A3FF] to-[#4CC9F0] text-transparent bg-clip-text">
               lobomat.shop
             </span>
           </Link>
