@@ -2,57 +2,66 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Icons } from '../icons';
 import { Button } from './ui/Button';
-import { NavLink } from './NavLink';
 import { motion } from 'framer-motion';
-import { useAuth } from '../contexts/AuthContext';
 
 export function Navbar() {
-  const { isAuthenticated } = useAuth();
-
   return (
-    <motion.nav 
-      className="fixed top-0 left-0 right-0 z-[9999] h-16 bg-[#0B0D12] border-b border-[#1A1D1F]"
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      {/* Contenido del Navbar */}
-      <div className="max-w-[1920px] mx-auto px-4 xl:px-8 2xl:px-16 h-full">
-        <div className="flex items-center justify-between h-full relative">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 z-10">
-            <Icons.Store className="w-6 h-6 text-primary" />
-            <span className="text-lg font-bold bg-gradient-to-r from-primary to-primary-hover text-transparent bg-clip-text">
-              Lobomat
-            </span>
+    <header className="fixed top-0 left-0 right-0 h-16 bg-[#0A0A0B]/95 backdrop-blur-lg border-b border-white/10 z-50">
+      <div className="container h-full mx-auto px-4 xl:px-8 2xl:px-16">
+        <div className="flex items-center justify-between h-full">
+          <Link to="/" className="flex items-center gap-2">
+            <img 
+              src="https://imgur.com/5lQixNR.png" 
+              alt="Lobomat Logo" 
+              className="h-10 w-auto"
+            />
           </Link>
 
-          {/* Enlaces de navegación */}
-          <div className="flex items-center gap-6 z-10">
-            <NavLink to="/" icon={<Icons.Home className="w-4 h-4" />} text="Inicio" />
-            <NavLink to="/store" icon={<Icons.Store className="w-4 h-4" />} text="Tienda" />
-            <NavLink to="/tutorial" icon={<Icons.Book className="w-4 h-4" />} text="Tutorial" />
-            <NavLink to="/bot" icon={<Icons.Bot className="w-4 h-4" />} text="Bot" />
-          </div>
+          <nav className="hidden md:flex items-center gap-6">
+            <Link 
+              to="/" 
+              className="text-[#8A8F98] hover:text-white transition-colors"
+            >
+              Inicio
+            </Link>
+            <Link 
+              to="/store" 
+              className="text-[#8A8F98] hover:text-white transition-colors"
+            >
+              Tienda
+            </Link>
+            <Link 
+              to="/tutorial" 
+              className="text-[#8A8F98] hover:text-white transition-colors"
+            >
+              Tutorial
+            </Link>
+          </nav>
 
-          {/* Botones de acción */}
-          <div className="flex items-center gap-2 z-10">
-            {!isAuthenticated && (
+          <div className="flex items-center gap-4">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
               <Button 
                 variant="secondary"
-                className="flex items-center gap-1 px-3 py-1.5 text-sm bg-primary/10 hover:bg-primary/20"
+                className="px-4 py-2"
               >
-                <Icons.LogIn className="w-4 h-4" />
-                <span>Login</span>
+                <Icons.ShoppingCart className="w-5 h-5" />
               </Button>
-            )}
-            <Button className="flex items-center gap-1 px-3 py-1.5 text-sm">
-              <Icons.ShoppingCart className="w-4 h-4" />
-              <span>Cart</span>
-            </Button>
+            </motion.div>
+            
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Button className="px-4 py-2">
+                Conectar
+              </Button>
+            </motion.div>
           </div>
         </div>
       </div>
-    </motion.nav>
+    </header>
   );
 }
