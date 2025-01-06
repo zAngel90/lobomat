@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+    @apply antialiased bg-secondary text-white;
+  }
+}
+
+/* Estilos de botones */
+.btn-primary {
+  @apply bg-primary hover:bg-primary-hover text-white font-semibold py-2 px-4 rounded transition-colors duration-200;
+}
+
+.btn-secondary {
+  @apply bg-secondary-light hover:bg-secondary border border-primary/20 text-white font-semibold py-2 px-4 rounded transition-colors duration-200;
+}
+
+/* Animaciones suaves */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Efecto de desenfoque mejorado */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Efecto de brillo neón para el navbar */
+.navbar-glow {
+  box-shadow: 0 0 10px theme('colors.primary.DEFAULT'),
+              0 0 20px theme('colors.primary.DEFAULT'),
+              0 0 30px theme('colors.primary.DEFAULT');
+  animation: glow 3s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Cards y contenedores */
+.card {
+  @apply bg-secondary-light rounded-lg border border-primary/10 p-4 hover:border-primary/20 transition-colors duration-200;
+}
+
+/* Gradientes personalizados */
+.gradient-text {
+  @apply bg-gradient-primary bg-clip-text text-transparent;
+}
+
+/* Navegación */
+.nav-link {
+  @apply text-white/70 hover:text-primary transition-colors duration-200;
+}
+
+.nav-link.active {
+  @apply text-primary;
+}
+
+/* Inputs */
+.input-primary {
+  @apply bg-secondary-light border border-primary/20 rounded px-4 py-2 text-white focus:border-primary focus:outline-none transition-colors duration-200;
+}
+
+/* Badges */
+.badge {
+  @apply px-2 py-1 rounded-full text-xs font-medium;
+}
+
+.badge-primary {
+  @apply bg-primary/20 text-primary;
+}
+
+.badge-success {
+  @apply bg-accent-success/20 text-accent-success;
+}
+
+.badge-warning {
+  @apply bg-accent-warning/20 text-accent-warning;
+}
